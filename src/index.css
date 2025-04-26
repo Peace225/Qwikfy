@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fixer les flèches du carousel */
+.carousel-arrow {
+    z-index: 70; /* Plus haut que la Navbar z-60 */
+    position: relative; /* Forcer à respecter le nouveau z-index */
+  }
+  
