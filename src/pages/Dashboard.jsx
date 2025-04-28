@@ -48,6 +48,8 @@ export default function Dashboard() {
   const [showCreate, setShowCreate] = useState(false);
   const [showAddProduit, setShowAddProduit] = useState(false);
   const [editingBoutique, setEditingBoutique] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
+  const [toastType, setToastType] = useState("success");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -168,14 +170,18 @@ export default function Dashboard() {
       </Helmet>
 
       <main className={`flex min-h-screen ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
-        <SidebarDashboard
-          user={user}
-          darkMode={darkMode}
-          setDarkMode={setDarkMode}
-          handleLogout={handleLogout}
-          menuOpen={menuOpen}
-          setMenuOpen={setMenuOpen}
-        />
+          <SidebarDashboard
+            user={user}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
+            handleLogout={handleLogout}
+            menuOpen={menuOpen}
+            setMenuOpen={setMenuOpen}
+            setShowCreate={setShowCreate} // 🔥 ajoute ceci
+            setShowAddProduit={setShowAddProduit} // 🔥 ajoute ceci
+            navigate={navigate} // 🔥 ajoute ceci
+          />
+
 
         <section className="flex-1 px-4 py-6 md:p-8">
           <HeaderDashboard
@@ -226,13 +232,15 @@ export default function Dashboard() {
             <CreateBoutiqueModal
               userId={user.uid}
               onClose={() => setShowCreate(false)}
-              onCreated={() => {
+              onCreated={(message) => {
                 setShowCreate(false);
-                setSuccessMessage("✅ Boutique créée avec succès !");
+                setToastMessage(message); // 🔥 utilise le Toast PRO !
+                setToastType("success");
                 fetchData();
               }}
             />
           )}
+
 
           {editingBoutique && (
             <EditBoutiqueModal
