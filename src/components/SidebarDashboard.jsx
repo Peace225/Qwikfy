@@ -1,11 +1,16 @@
 import { useState } from "react";
-import { PlusCircle, Package, Home, LogOut, Store, SunMoon, ChevronLeft, Truck } from "lucide-react";
+import { PlusCircle, Package, Home, LogOut, Store, SunMoon, ChevronLeft, Truck, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion"; 
-import Automisation from "../pages/Automatisation"; // Ton composant Automisation
+import Automatisation from "../pages/Automatisation"; 
+// 🚀 Importe aussi un composant Formation (on va le créer ensuite !)
+import Formation from "../pages/Formation"; 
 
 export default function SidebarDashboard({ user, darkMode, setDarkMode, handleLogout, navigate, setShowCreate, setShowAddProduit, menuOpen, setMenuOpen }) {
   const [hoverTruck, setHoverTruck] = useState(false);
   const [showAutomatisation, setShowAutomatisation] = useState(false);
+
+  const [hoverBook, setHoverBook] = useState(false); 
+  const [showFormation, setShowFormation] = useState(false); 
 
   return (
     <>
@@ -53,13 +58,23 @@ export default function SidebarDashboard({ user, darkMode, setDarkMode, handleLo
             onMouseLeave={() => setHoverTruck(false)}
             className="flex items-center gap-2 hover:text-green-600"
           >
-            <motion.div
-              animate={hoverTruck ? { x: 5 } : { x: 0 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
+            <motion.div animate={hoverTruck ? { x: 5 } : { x: 0 }} transition={{ type: "spring", stiffness: 300 }}>
               <Truck size={18} />
             </motion.div>
             Automatisation
+          </button>
+
+          {/* Formation */}
+          <button
+            onClick={() => setShowFormation(true)}
+            onMouseEnter={() => setHoverBook(true)}
+            onMouseLeave={() => setHoverBook(false)}
+            className="flex items-center gap-2 hover:text-green-600"
+          >
+            <motion.div animate={hoverBook ? { x: 5 } : { x: 0 }} transition={{ type: "spring", stiffness: 300 }}>
+              <BookOpen size={18} />
+            </motion.div>
+             Formation E-commerce
           </button>
 
           <button onClick={() => navigate("/")} className="flex items-center gap-2 hover:text-green-600">
@@ -74,7 +89,7 @@ export default function SidebarDashboard({ user, darkMode, setDarkMode, handleLo
         </nav>
       </aside>
 
-      {/* Popup Automatisation amélioré */}
+      {/* Popup Automatisation */}
       <AnimatePresence>
         {showAutomatisation && (
           <motion.div
@@ -85,7 +100,6 @@ export default function SidebarDashboard({ user, darkMode, setDarkMode, handleLo
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
           >
             <div className="relative bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-5xl overflow-y-auto max-h-[90vh]">
-              {/* Bouton Fermer */}
               <button
                 onClick={() => setShowAutomatisation(false)}
                 className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
@@ -93,20 +107,31 @@ export default function SidebarDashboard({ user, darkMode, setDarkMode, handleLo
                 ✖
               </button>
 
-              {/* 👉 Ici ton composant Automisation.jsx */}
-              <Automisation />
+              <Automatisation />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-              {/* 🔥 BONUS BOUTON AJOUT ALIEXPRESS */}
-              <div className="flex justify-center mt-8">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => alert("Fonction Ajouter AliExpress en développement... 🚀")}
-                  className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full transition-all shadow"
-                >
-                  + Ajouter AliExpress
-                </motion.button>
-              </div>
+      {/* Popup Formation */}
+      <AnimatePresence>
+        {showFormation && (
+          <motion.div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 100, damping: 20 }}
+          >
+            <div className="relative bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-4xl overflow-y-auto max-h-[90vh]">
+              <button
+                onClick={() => setShowFormation(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white"
+              >
+                ✖
+              </button>
+
+              <Formation />
             </div>
           </motion.div>
         )}
