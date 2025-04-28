@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Zap } from "lucide-react";
+import CheckoutPopup from "./CheckoutPopup"; // 🔥 Assure-toi d'avoir ce fichier dans /components
 
 const ventesFlash = [
   {
@@ -51,9 +52,9 @@ const ventesFlash = [
 
 export default function VentesFlash() {
   const [countdown, setCountdown] = useState("00h : 00m : 00s");
+  const [selectedProduct, setSelectedProduct] = useState(null); // 👈 Pour gérer le produit cliqué
 
   useEffect(() => {
-    // Simule un compte à rebours
     const target = new Date().getTime() + 60 * 60 * 1000; // 1h
     const interval = setInterval(() => {
       const now = new Date().getTime();
@@ -82,7 +83,11 @@ export default function VentesFlash() {
         {ventesFlash.map((item, i) => {
           const percent = Math.round(((item.total - item.remaining) / item.total) * 100);
           return (
-            <div key={i} className="text-sm">
+            <div
+              key={i}
+              onClick={() => setSelectedProduct(item)} // 👈 Au clic, ouvrir popup
+              className="cursor-pointer text-sm bg-white p-2 rounded shadow hover:shadow-md transition"
+            >
               <div className="relative">
                 <img
                   src={item.img}
@@ -107,6 +112,14 @@ export default function VentesFlash() {
           );
         })}
       </div>
+
+      {/* ✅ Popup Checkout affiché si produit sélectionné */}
+      {selectedProduct && (
+        <CheckoutPopup
+          product={selectedProduct}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </section>
   );
 }
