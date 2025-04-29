@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useState, useEffect } from "react";
+import { collection, addDoc, getDocs, query, where, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../utils/firebaseConfig";
 import { v4 as uuidv4 } from "uuid";
@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function CreateBoutiqueModal({ userId, onClose, onCreated }) {
   const [nom, setNom] = useState("");
   const [description, setDescription] = useState("");
+  const [domaine, setDomaine] = useState("");
   const [logoFile, setLogoFile] = useState(null);
   const [logoPreview, setLogoPreview] = useState("");
   const [productImages, setProductImages] = useState([]);
@@ -16,6 +17,24 @@ export default function CreateBoutiqueModal({ userId, onClose, onCreated }) {
   const [products, setProducts] = useState([{ nom: "", prix: "", description: "" }]);
   const [modePaiement, setModePaiement] = useState("Carte bancaire");
   const [loading, setLoading] = useState(false);
+  const [domaineDisponible, setDomaineDisponible] = useState(true); // 🆕 état disponibilité
+
+  // Vérification automatique du domaine
+  useEffect(() => {
+    if (!domaine) {
+      setDomaineDisponible(true);
+      return;
+    }
+
+    const checkDomaine = async () => {
+      const q = query(collection(db, "boutiques"), where("domaine", "==", domaine));
+      const snapshot = await getDocs(q);
+      setDomaineDisponible(snapshot.empty); // true si vide, false si existe
+    };
+
+    const timeout = setTimeout(checkDomaine, 500); // Attendre 500ms avant vérification
+    return () => clearTimeout(timeout);
+  }, [domaine]);
 
   const handleProductChange = (index, field, value) => {
     const newProducts = [...products];
@@ -44,6 +63,11 @@ export default function CreateBoutiqueModal({ userId, onClose, onCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!domaineDisponible) {
+      alert("🚫 Ce nom de domaine est déjà utilisé. Veuillez en choisir un autre.");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -62,27 +86,27 @@ export default function CreateBoutiqueModal({ userId, onClose, onCreated }) {
         uploadedImages.push(imgUrl);
       }
 
+      await addDoc(collection(db, "boutiques"), {
+        nom,
+        description,
+        domaine,
+        userId,
+        logoUrl,
+        modePaiement,
+        products,
+        productImages: uploadedImages,
+        createdAt: serverTimestamp(),
+      });
 
-  await addDoc(collection(db, "boutiques"), {
-    nom,
-    description,
-    userId,
-    logoUrl,
-    modePaiement,
-    products,
-    productImages: uploadedImages,
-    createdAt: serverTimestamp(),
-  });
-
-  onCreated("✅ Boutique créée avec succès !"); // 🔥 envoie le message de succès
-  onClose();
-} catch (error) {
-  console.error("Erreur création boutique :", error);
-  alert("Erreur lors de la création de la boutique.");
-} finally {
-  setLoading(false);
-}
-};
+      onCreated("✅ Boutique créée avec succès !");
+      onClose();
+    } catch (error) {
+      console.error("Erreur création boutique :", error);
+      alert("Erreur lors de la création de la boutique.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4" aria-label="Créer une boutique">
@@ -120,14 +144,34 @@ export default function CreateBoutiqueModal({ userId, onClose, onCreated }) {
           />
         </div>
 
-        {/* Logo */}
+        {/* Nom de domaine */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Logo de la boutique</label>
-          <input type="file" accept="image/*" onChange={handleLogoChange} className="mt-1 w-full" />
-          {logoPreview && (
-            <img src={logoPreview} alt="Logo preview" className="mt-2 h-20 object-contain mx-auto" />
+          <label className="block text-sm font-medium text-gray-700">Nom de Domaine</label>
+          <input
+            type="text"
+            value={domaine}
+            onChange={(e) => {
+              const input = e.target.value
+                .toLowerCase()
+                .replace(/[^a-z0-9-]/g, "")
+                .replace(/\s+/g, "");
+              setDomaine(input);
+            }}
+            placeholder="Ex: fashionstyle"
+            required
+            className="w-full mt-1 border rounded p-2"
+          />
+          {domaine && (
+            <p className={`text-xs mt-1 ${domaineDisponible ? "text-green-600" : "text-red-500"}`}>
+              {domaineDisponible
+                ? `✅ Disponible : https://${domaine}.qwikfy.com`
+                : "🚫 Ce domaine est déjà pris"}
+            </p>
           )}
         </div>
+
+        {/* (le reste continue normalement : logo, produits, paiement, etc.) */}
+
 
         {/* Produits */}
         <div className="space-y-4">

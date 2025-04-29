@@ -7,8 +7,8 @@ export default function HeaderDashboard({ user, handleUploadPhoto, searchTerm, s
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-green-500">Tableau de bord</h2>
-            <p className="text-lg text-gray-500 dark:text-gray-500">Bienvenue, {user?.email || "Utilisateur"}</p>
+            <h2 className="text-2xl font-bold text-green-600 dark:text-green-500">Tableau de bord</h2>
+            <p className="text-lg text-gray-500 dark:text-white">Bienvenue, {user?.email || "Utilisateur"}</p>
 
             <label className="mt-2 inline-flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 cursor-pointer hover:text-green-600 dark:hover:text-green-400 transition">
               📷 Modifier la photo

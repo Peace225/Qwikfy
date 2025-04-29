@@ -29,7 +29,6 @@ import AdvancedKpi from "../components/AdvancedKpi";
 import GestionMultiCanaux from "../components/GestionMultiCanaux";
 import ListeVentes from "../components/ListeVentes";
 
-
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Dashboard() {
@@ -50,6 +49,8 @@ export default function Dashboard() {
   const [editingBoutique, setEditingBoutique] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+
+  const [selectedTheme, setSelectedTheme] = useState(null); // 🔥 nouveau
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -156,32 +157,22 @@ export default function Dashboard() {
         <meta name="keywords" content="Qwikfy, e-commerce, tableau de bord, boutique en ligne, gestion de produit" />
         <meta name="author" content="Qwikfy" />
         <link rel="canonical" href="https://www.qwikfy.com/dashboard" />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "Qwikfy",
-          "url": "https://www.qwikfy.com",
-          "logo": "https://www.qwikfy.com/logo.png",
-          "sameAs": [
-            "https://www.facebook.com/qwikfy",
-            "https://www.instagram.com/qwikfy"
-          ]
-        })}</script>
       </Helmet>
 
       <main className={`flex min-h-screen ${darkMode ? "dark bg-gray-900 text-white" : "bg-gray-100"}`}>
-          <SidebarDashboard
-            user={user}
-            darkMode={darkMode}
-            setDarkMode={setDarkMode}
-            handleLogout={handleLogout}
-            menuOpen={menuOpen}
-            setMenuOpen={setMenuOpen}
-            setShowCreate={setShowCreate} // 🔥 ajoute ceci
-            setShowAddProduit={setShowAddProduit} // 🔥 ajoute ceci
-            navigate={navigate} // 🔥 ajoute ceci
-          />
-
+        <SidebarDashboard
+          user={user}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          handleLogout={handleLogout}
+          menuOpen={menuOpen}
+          setMenuOpen={setMenuOpen}
+          setShowCreate={setShowCreate}
+          setShowAddProduit={setShowAddProduit}
+          navigate={navigate}
+          setSelectedTheme={setSelectedTheme} // 🔥
+          selectedTheme={selectedTheme} // 🔥
+        />
 
         <section className="flex-1 px-4 py-6 md:p-8">
           <HeaderDashboard
@@ -205,18 +196,12 @@ export default function Dashboard() {
           <BoutiqueChart data={chartData} />
           <ListeBoutiques boutiques={filteredBoutiques} onDelete={handleDeleteBoutique} onEdit={setEditingBoutique} />
           <ListeProduitsUtilisateur />
-          <ListeVentes /> {/* 👈 Ajout ici pour afficher l'historique des ventes */}
+          <ListeVentes />
 
           {/* Modales */}
           <AnimatePresence>
             {showAddProduit && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur"
-              >
+              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.2 }} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur">
                 <AdminAjouterProduit
                   onClose={() => setShowAddProduit(false)}
                   onCreated={() => {
@@ -231,16 +216,16 @@ export default function Dashboard() {
           {showCreate && (
             <CreateBoutiqueModal
               userId={user.uid}
+              theme={selectedTheme} // 🔥 passe le thème ici
               onClose={() => setShowCreate(false)}
               onCreated={(message) => {
                 setShowCreate(false);
-                setToastMessage(message); // 🔥 utilise le Toast PRO !
+                setToastMessage(message);
                 setToastType("success");
                 fetchData();
               }}
             />
           )}
-
 
           {editingBoutique && (
             <EditBoutiqueModal
@@ -263,7 +248,7 @@ export default function Dashboard() {
   );
 }
 
-// 🔥 Petit composant pour afficher joliment les KPI
+// 🔥 Composant KPI simple
 function KpiCard({ title, value, color }) {
   return (
     <div className="bg-white dark:bg-gray-800 border p-4 rounded shadow">

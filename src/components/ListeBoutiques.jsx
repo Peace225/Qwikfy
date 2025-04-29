@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { Pencil, Trash2 } from "lucide-react";
+import { motion } from "framer-motion"; // 🔥
 
 export default function ListeBoutiques({ boutiques, onDelete, onEdit }) {
   return (
@@ -14,18 +15,15 @@ export default function ListeBoutiques({ boutiques, onDelete, onEdit }) {
         </p>
       ) : (
         <>
-          {/* Desktop view (table) */}
+          {/* Desktop */}
           <div className="hidden md:block overflow-x-auto">
-            <table
-              className="min-w-full text-sm table-auto"
-              role="table"
-              aria-label="Liste des boutiques"
-            >
+            <table className="min-w-full text-sm table-auto" role="table" aria-label="Liste des boutiques">
               <thead className="bg-gray-50 text-left text-gray-600 uppercase tracking-wider">
                 <tr>
                   <th className="px-4 py-2">Logo</th>
                   <th className="px-4 py-2">Nom</th>
                   <th className="px-4 py-2">Description</th>
+                  <th className="px-4 py-2">Thème</th>
                   <th className="px-4 py-2">Date</th>
                   <th className="px-4 py-2">Actions</th>
                 </tr>
@@ -48,6 +46,19 @@ export default function ListeBoutiques({ boutiques, onDelete, onEdit }) {
                     </td>
                     <td className="px-4 py-2 font-medium text-gray-800">{b.nom || "Sans nom"}</td>
                     <td className="px-4 py-2 text-gray-600">{b.description || "—"}</td>
+                    <td className="px-4 py-2">
+                      {b.theme ? (
+                        <motion.span
+                          animate={{ scale: [1, 1.1, 1] }}
+                          transition={{ repeat: Infinity, duration: 2 }}
+                          className="inline-block text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+                        >
+                          🎨 {b.theme}
+                        </motion.span>
+                      ) : (
+                        <span className="text-xs text-gray-400">—</span>
+                      )}
+                    </td>
                     <td className="px-4 py-2 text-gray-500">
                       {b.createdAt?.toDate
                         ? dayjs(b.createdAt.toDate()).format("DD MMM YYYY")
@@ -75,13 +86,10 @@ export default function ListeBoutiques({ boutiques, onDelete, onEdit }) {
             </table>
           </div>
 
-          {/* Mobile view (cards) */}
+          {/* Mobile */}
           <div className="md:hidden space-y-4">
             {boutiques.map((b) => (
-              <div
-                key={b.id || b.nom}
-                className="border rounded-lg p-4 shadow-sm flex flex-col gap-2 bg-white"
-              >
+              <div key={b.id || b.nom} className="border rounded-lg p-4 shadow-sm flex flex-col gap-2 bg-white">
                 <div className="flex items-center gap-4">
                   {b.logoUrl ? (
                     <img
@@ -103,7 +111,21 @@ export default function ListeBoutiques({ boutiques, onDelete, onEdit }) {
                     </p>
                   </div>
                 </div>
+
+                {b.theme && (
+                  <div className="flex justify-start mt-2">
+                    <motion.span
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                      className="inline-block text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+                    >
+                      🎨 {b.theme}
+                    </motion.span>
+                  </div>
+                )}
+
                 <p className="text-sm text-gray-600">{b.description || "—"}</p>
+
                 <div className="flex gap-2 mt-2">
                   <button
                     onClick={() => onEdit(b)}
