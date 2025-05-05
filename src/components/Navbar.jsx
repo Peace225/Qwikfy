@@ -6,7 +6,7 @@ import CategorySidebar from "./CategorySidebar";
 import PopupPanier from "./PopupPanier";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
-import ToastNotification from "./ToastNotification"; // 🔥 Ajouté
+import ToastNotification from "./ToastNotification";
 
 const categories = [
   "Toutes", "Téléphones", "TV & HIGH TECH", "Informatique",
@@ -51,26 +51,24 @@ export default function Navbar() {
   const handleOpenCart = () => {
     setIsPopupPanierOpen(true);
     setAnimateCart(true);
-    setTimeout(() => setAnimateCart(false), 300); // Animation rapide
+    setTimeout(() => setAnimateCart(false), 300);
     setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000); // Toast visible 3s
+    setTimeout(() => setShowToast(false), 3000);
   };
 
   return (
     <header className={`${isScrolled ? "bg-white/90 shadow-md backdrop-blur-md" : "bg-white"} border-b sticky top-0 z-50 transition-all`}>
-      
-      {/* Mobile Navbar */}
       <nav className="flex items-center justify-between px-4 py-2 md:hidden">
         <button onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
           {menuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
         </button>
-        <Link to="/" className="text-xl font-bold text-gray-900 flex items-center gap-1">
-        <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
+        <Link to="/" className="text-xl font-bold text-gray-900 flex items-center gap-1 hover:text-[#62d4f9] transition-colors duration-200">
+          <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
           QWIKFY
         </Link>
         <div className="flex gap-4 items-center">
           <Link to={user ? "/dashboard" : "/login"}>
-            <UserRound className="w-5 h-5 text-gray-700" />
+            <UserRound className="w-5 h-5 text-gray-700 hover:text-[#62d4f9] transition-colors duration-200" />
           </Link>
           <button onClick={handleOpenCart}>
             <div className="relative">
@@ -85,7 +83,6 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Barre de recherche mobile */}
       <section className="md:hidden px-4 pb-3">
         <form onSubmit={handleSearch} className="flex items-center border rounded-full px-3 py-2 shadow-sm">
           <Search className="w-5 h-5 text-gray-400 mr-2" />
@@ -99,7 +96,6 @@ export default function Navbar() {
         </form>
       </section>
 
-      {/* Mobile Dropdown Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.nav
@@ -108,25 +104,24 @@ export default function Navbar() {
             exit={{ height: 0, opacity: 0 }}
             className="md:hidden bg-white px-4 pb-4 space-y-3 text-sm border-t"
           >
-            <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
+            <Link to="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 hover:text-[#62d4f9] transition-colors duration-200">
               <Home className="w-4 h-4" /> Accueil
             </Link>
             {user && (
-              <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
+              <Link to="/dashboard" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 hover:text-[#62d4f9] transition-colors duration-200">
                 <LayoutDashboard className="w-4 h-4" /> Dashboard
               </Link>
             )}
-            <Link to={user ? "/dashboard" : "/login"} onClick={() => setMenuOpen(false)} className="flex items-center gap-2">
+            <Link to={user ? "/dashboard" : "/login"} onClick={() => setMenuOpen(false)} className="flex items-center gap-2 hover:text-[#62d4f9] transition-colors duration-200">
               <UserRound className="w-4 h-4" /> {user ? "Mon compte" : "Se connecter"}
             </Link>
           </motion.nav>
         )}
       </AnimatePresence>
 
-      {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-3">
-        <Link to="/" className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-        <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
+        <Link to="/" className="text-2xl font-bold text-gray-900 flex items-center gap-2 hover:text-[#62d4f9] transition-colors duration-200">
+          <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
           QWIKFY
         </Link>
         <form onSubmit={handleSearch} className="flex flex-grow max-w-xl ml-4">
@@ -140,22 +135,22 @@ export default function Navbar() {
             />
             <button
               type="submit"
-              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2"
+              className="bg-[#62d4f9] hover:bg-[#3cc1f0] text-white px-4 py-2 transition-colors duration-200"
             >
               Rechercher
             </button>
           </div>
         </form>
         <div className="flex gap-5 text-sm ml-4 items-center">
-          <Link to="/" className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1 hover:text-[#62d4f9] transition-colors duration-200">
             <Home className="w-4 h-4" /> Accueil
           </Link>
           {user && (
-            <Link to="/dashboard" className="flex items-center gap-1">
+            <Link to="/dashboard" className="flex items-center gap-1 hover:text-[#62d4f9] transition-colors duration-200">
               <LayoutDashboard className="w-4 h-4" /> Dashboard
             </Link>
           )}
-          <Link to={user ? "/dashboard" : "/login"} className="flex items-center gap-1">
+          <Link to={user ? "/dashboard" : "/login"} className="flex items-center gap-1 hover:text-[#62d4f9] transition-colors duration-200">
             <UserRound className="w-4 h-4" /> {user ? "Mon compte" : "Se connecter"}
           </Link>
           <button onClick={handleOpenCart}>
@@ -171,13 +166,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Popup Panier */}
-      <PopupPanier
-        isOpen={isPopupPanierOpen}
-        onClose={() => setIsPopupPanierOpen(false)}
-      />
-
-      {/* Toast Notification */}
+      <PopupPanier isOpen={isPopupPanierOpen} onClose={() => setIsPopupPanierOpen(false)} />
       <ToastNotification message="Produit ajouté au panier !" isVisible={showToast} />
     </header>
   );
