@@ -103,7 +103,7 @@ export default function Accueil() {
             {bannerItems.map((item, index) => (
               <motion.section
                 key={index}
-                className="bg-blue-900 text-white rounded shadow p-6 flex flex-col md:flex-row items-center justify-between"
+                className="bg-[#62d4f9] text-white rounded shadow p-6 flex flex-col md:flex-row items-center justify-between"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
