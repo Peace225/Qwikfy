@@ -1,0 +1,27 @@
+[
+    {
+      "title": "Offres Défiant les Prix",
+      "subtitle": "Des offres engagées pour le pouvoir d'achat.",
+      "product": "PC Portable 15,6\" HP",
+      "price": "429€99",
+      "discount": "-32% vs Amazon.fr",
+      "image": "/images/banners/hp-banner.png"
+    },
+    {
+      "title": "Offres Défiantes",
+      "subtitle": "Smartphones à prix cassés !",
+      "product": "Samsung Galaxy A14",
+      "price": "169€",
+      "discount": "-22%",
+      "image": "/images/banners/samsung-banner.png"
+    },
+    {
+      "title": "Offres Défiantes",
+      "subtitle": "Équipez votre cuisine à petit prix",
+      "product": "Pack Poêles TEFAL",
+      "price": "79€99",
+      "discount": "-30%",
+      "image": "/images/banners/tefal-banner.png"
+    }
+  ]
+  

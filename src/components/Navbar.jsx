@@ -65,7 +65,7 @@ export default function Navbar() {
           {menuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
         </button>
         <Link to="/" className="text-xl font-bold text-gray-900 flex items-center gap-1">
-          <ShoppingCart className="w-6 h-6 text-green-500" />
+        <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
           QWIKFY
         </Link>
         <div className="flex gap-4 items-center">
@@ -126,7 +126,7 @@ export default function Navbar() {
       {/* Desktop Navbar */}
       <nav className="hidden md:flex items-center justify-between px-4 py-3">
         <Link to="/" className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <ShoppingCart className="w-6 h-6 text-green-500" />
+        <img src="/image/logo-qwikfy.png" alt="logo" className="w-9 h-9 object-contain" />
           QWIKFY
         </Link>
         <form onSubmit={handleSearch} className="flex flex-grow max-w-xl ml-4">
