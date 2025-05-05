@@ -23,10 +23,10 @@ export default function EncartsDroite() {
   return (
     <div className="space-y-4">
       {encarts.map((e, i) => (
-        <div key={i} className="bg-white p-4 rounded shadow-sm flex items-start gap-3">
+        <div key={i} className="bg-[#62d4f9] p-4 rounded shadow-sm flex items-start gap-3">
           {e.icon}
           <div>
-            <h4 className="text-sm font-semibold text-gray-800">{e.title}</h4>
+            <h4 className="text-sm font-semibold text-white">{e.title}</h4>
             <p className="text-xs text-gray-500">{e.desc}</p>
           </div>
         </div>

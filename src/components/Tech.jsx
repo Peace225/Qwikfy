@@ -50,10 +50,10 @@ export default function Tech() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <section className="bg-lime-100 py-6 px-4 mt-6">
+    <section className="bg-[#62d4f9] py-6 px-4 mt-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">Tech | Jusqu'à 80%</h2>
-        <button className="text-sm text-gray-700 hover:underline">Voir plus &rarr;</button>
+        <h2 className="text-lg font-bold text-white">Tech | Jusqu'à 80%</h2>
+        <button className="text-sm text-white hover:underline">Voir plus &rarr;</button>
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">

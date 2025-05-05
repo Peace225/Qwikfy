@@ -15,8 +15,8 @@ const boutiques = [
   
   export default function BoutiquesOfficielles() {
     return (
-      <section className="bg-lime-100 py-10 px-4">
-        <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">
+      <section className="bg-[#62d4f9] py-10 px-4">
+        <h2 className="text-center text-2xl font-bold text-white mb-6">
           Découvrez nos boutiques officielles
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">

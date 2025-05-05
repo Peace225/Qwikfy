@@ -78,8 +78,8 @@ export default function TopDeals() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <section className="bg-green-50 py-6 px-4">
-      <h2 className="text-xl font-bold mb-4">Top deals :</h2>
+    <section className="bg-[#62d4f9] py-6 px-4">
+      <h2 className="text-xl font-bold mb-4 text-white">Top deals :</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
         {topDeals.map((deal, index) => (
           <div

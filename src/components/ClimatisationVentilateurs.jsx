@@ -50,9 +50,9 @@ export default function ClimatisationVentilateurs() {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   return (
-    <section className="bg-lime-200 py-6 px-4 mt-6">
+    <section className="bg-[#62d4f9] py-6 px-4 mt-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-bold text-gray-800">
+        <h2 className="text-lg font-bold text-white">
           Climatisation et ventilateurs | Jusqu'à -27%
         </h2>
         <button className="text-sm text-gray-700 hover:underline">Voir plus &rarr;</button>

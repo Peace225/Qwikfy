@@ -37,7 +37,7 @@ const responsive = {
 
 export default function BottomCatalogueSection() {
   return (
-    <section className="bg-white py-4">
+    <section className="bg-[#62d4f9] py-4">
       <Carousel responsive={responsive} infinite autoPlay autoPlaySpeed={2500}>
         {catalogueItems.map((item, index) => (
           <div key={index} className="flex flex-col items-center justify-center px-2">

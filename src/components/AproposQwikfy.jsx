@@ -1,10 +1,10 @@
 export default function AproposQwikfy() {
   return (
-    <section className="bg-lime-100 px-6 py-10 text-gray-800">
+    <section className="bg-[#62d4f9] px-6 py-10 text-white">
       <div className="max-w-6xl mx-auto space-y-6">
 
         <div>
-          <h1 className="text-xl font-bold text-gray-900 mb-2">
+          <h1 className="text-xl font-bold text-red-600 mb-2">
             Qwikfy – La Plateforme Tout-en-Un pour l’E-commerce Moderne
           </h1>
           <p className="text-sm leading-relaxed">
